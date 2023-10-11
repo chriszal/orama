@@ -16,7 +16,7 @@ export default function ResponsiveDialog(props) {
 
   return (
     <Dialog
-      fullScreen={fullScreen}
+      // fullScreen={fullScreen}
       open={open}
       onClose={onClose}
       aria-labelledby="responsive-dialog-title"

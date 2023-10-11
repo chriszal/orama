@@ -12,7 +12,7 @@ const Page = () => {
   return (
     <>
       <Head>
-        <title>Beam</title>
+        <title>Orama</title>
       </Head>
       <Hero />
       <About />

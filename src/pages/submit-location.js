@@ -125,7 +125,7 @@ const Page = () => {
   return (
     <>
       <Head>
-        <title>Beam</title>
+        <title>Submit a Location</title>
       </Head>
       <Container>
         <Typography variant="h4" align="center" mt={3}>Submit a New Location</Typography>

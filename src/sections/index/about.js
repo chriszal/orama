@@ -23,7 +23,7 @@ const About = () => {
             What is Orama?
             </Typography>
             <Typography variant="body1" sx={{ mb: 5, color: 'white' }}>
-            Orama is a project that aims to create a collection of images showing the changes in different locations around the world. Simply scan the QR code on one of our phone stands, take a photo, and share your perspective with the world. Together, we can create a unique and dynamic view of the world\'s most beautiful locations. Whether it\'s a beach, a city, a forest, or any other location, we want to capture its beauty and changes through the eyes of the world and with the help of the community.
+            Orama is a project that aims to create a collection of images showing the changes in different locations around the world. Simply scan the QR code on one of our phone stands, take a photo, and share your perspective with the world. Together, we can create a unique and dynamic view of the world&apos;s most beautiful locations. Whether it&apos;s a beach, a city, a forest, or any other location, we want to capture its beauty and changes through the eyes of the world and with the help of the community.
             </Typography>
           </Grid>
           {/* Illustration part */}

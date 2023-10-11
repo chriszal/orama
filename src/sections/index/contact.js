@@ -53,7 +53,7 @@ const Contact = () => {
             Get in Touch
             </Typography>
             <Typography variant="body1" sx={{ mb: 5, color: 'black' }}>
-            We'd love to hear from you! Whether you have questions, feedback, or just want to say hello, please fill out the form. We value your thoughts and opinions, so don't hesitate to reach out. We look forward to hearing from you!
+            We&apos;d love to hear from you! Whether you have questions, feedback, or just want to say hello, please fill out the form. We value your thoughts and opinions, so don&apos;t hesitate to reach out. We look forward to hearing from you!
             </Typography>
         </Grid>
       <Grid item xs={12} md={6}>

@@ -114,6 +114,7 @@ export const TopNav = (props) => {
           <Box
             sx={{
               display: 'inline-flex',
+              ml:4
             }}
           >
             <Logo onClick={toggleHome} />

@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react';
-import { Box, Typography, Container, TextField, Button, Snackbar, Alert } from '@mui/material';
+import { Box, Typography, Container,Grid,TextField, Button, Snackbar, Alert } from '@mui/material';
 import emailjs from '@emailjs/browser';
 
 const Contact = () => {
@@ -35,12 +35,30 @@ const Contact = () => {
   };
 
   return (
-    <Box id="contact" sx={{ display: 'flex', alignItems: 'center',height: '860px', justifyContent: 'center', flexGrow: 1 }}>
-      <Container maxWidth="md">
-        <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center' }}>
-          <Typography variant="h3" sx={{ mt: 3 }}>
-            Contact Us
-          </Typography>
+    <Box id="contact" sx={{
+      minHeight: ['auto', '860px'],
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center'
+    }}
+  >
+    <Container>
+      <Grid container spacing={3} alignItems="center">
+        {/* Text part */}
+        <Grid item xs={12} md={6}>
+        <Typography variant="body2" sx={{ fontWeight: 'bold', color: 'primary.main', mb: 2,mt:5 }}>
+              Contact Us
+            </Typography>
+            <Typography variant="h4" sx={{ mb: 5, color: 'black' }}>
+            Get in Touch
+            </Typography>
+            <Typography variant="body1" sx={{ mb: 5, color: 'black' }}>
+            We'd love to hear from you! Whether you have questions, feedback, or just want to say hello, please fill out the form. We value your thoughts and opinions, so don't hesitate to reach out. We look forward to hearing from you!
+            </Typography>
+        </Grid>
+      <Grid item xs={12} md={6}>
+      <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center' }}>
+          
           <Box 
             component="form"
             sx={{ mt: 5 }}
@@ -55,6 +73,8 @@ const Contact = () => {
             </Button>
           </Box>
         </Box>
+          </Grid>
+        </Grid>
       </Container>
       <Snackbar open={isSent} autoHideDuration={5000} onClose={handleClose} message="Email sent successfully">
         <Alert onClose={handleClose} severity="success" sx={{ width: '100%' }}>
@@ -67,6 +87,7 @@ const Contact = () => {
         </Alert>
       </Snackbar>
     </Box>
+    
   );
 };
 

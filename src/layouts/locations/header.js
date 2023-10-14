@@ -1,9 +1,19 @@
 import { Box, Typography, Link as MuiLink } from '@mui/material';
 import Link from 'next/link';
+import { alpha } from '@mui/material/styles';
 
 const Header = () => {
   return (
-    <Box sx={{ backgroundColor: 'neutral.800', padding: '8px 24px' }}>
+    <Box
+      sx={{
+        backdropFilter: 'blur(6px)',
+        backgroundColor: (theme) => alpha(theme.palette.text.primary, 0.8),
+        position: 'sticky',
+        top: 0,
+        zIndex: (theme) => theme.zIndex.appBar,
+        padding: '8px 24px',
+      }}
+    >
       <Box
         sx={{
           display: 'flex',

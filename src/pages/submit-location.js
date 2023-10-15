@@ -1,11 +1,12 @@
 import Head from 'next/head';
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect,useContext } from 'react';
 import mapboxgl from 'mapbox-gl';
 import emailjs from '@emailjs/browser';
 import { Box, Typography, Button, Container, TextField, Grid, Card, CardContent, Snackbar, Alert } from '@mui/material';
 import { Layout as LocationsLayout } from 'src/layouts/locations/layout';
-
+import { isPointInGreece } from 'src/utils/greece-bounds';
 import { LoadingButton } from '@mui/lab';
+import { AlertContext } from 'src/contexts/alert-context';
 
 import 'mapbox-gl/dist/mapbox-gl.css';
 
@@ -17,11 +18,11 @@ const Page = () => {
   const [user_name, setName] = useState('');
   const [user_email, setEmail] = useState('');
   const [description, setDescription] = useState('');
-  const [isSent, setIsSent] = useState(false);
-  const [isError, setIsError] = useState(false);
   const mapRef = useRef();
   const markerRef = useRef(null);
   const [loading, setLoading] = useState(false);
+  const { showAlert } = useContext(AlertContext);
+
 
 
   useEffect(() => {
@@ -35,18 +36,28 @@ const Page = () => {
     mapRef.current = map;
 
     const handleMapClick = (event) => {
-      setLocation({ latitude: event.lngLat.lat, longitude: event.lngLat.lng });
-
-      if (markerRef.current) {
-        markerRef.current.remove();
+      const lat = event.lngLat.lat;
+      const lng = event.lngLat.lng;
+    
+      // Check if the clicked point is within Greece( very early access)
+      if (isPointInGreece(lng, lat)) {
+        setLocation({ latitude: lat, longitude: lng });
+    
+        if (markerRef.current) {
+          markerRef.current.remove();
+        }
+    
+        const newMarker = new mapboxgl.Marker()
+          .setLngLat([lng, lat])
+          .addTo(mapRef.current);
+    
+        markerRef.current = newMarker;
+      } else {
+        // Inform the user that pinning is allowed only within Greece
+        showAlert('Only locations in greece allowed!', 'error');
       }
-
-      const newMarker = new mapboxgl.Marker()
-        .setLngLat([event.lngLat.lng, event.lngLat.lat])
-        .addTo(mapRef.current);
-
-      markerRef.current = newMarker;
     };
+    
 
     map.on('click', handleMapClick);
 
@@ -90,7 +101,7 @@ const Page = () => {
         console.log('Email sent successfully!', response.status, response.text);
         setLoading(false);
         if (response.text === "OK") {
-          setIsSent(true);
+          showAlert('Email sent successfully!', 'success');
 
           // Reset form fields
           setName('');
@@ -106,21 +117,16 @@ const Page = () => {
 
         } else {
           setLoading(false);
-          setIsError(true);
+          showAlert('Email failed to send', 'error');
         }
       })
       .catch((err) => {
         console.error('Failed to send email:', err);
         setLoading(false);
-        setIsError(true);
+        showAlert('Email failed to send', 'error');
       });
   };
 
-
-  const handleClose = () => {
-    setIsSent(false);
-    setIsError(false);
-  };
 
   return (
     <>
@@ -199,16 +205,7 @@ const Page = () => {
           </Grid>
         </Grid>
       </Container>
-      <Snackbar open={isSent} autoHideDuration={5000} onClose={handleClose}>
-        <Alert onClose={handleClose} severity="success" sx={{ width: '100%' }}>
-          Email sent successfully
-        </Alert>
-      </Snackbar>
-      <Snackbar open={isError} autoHideDuration={5000} onClose={handleClose}>
-        <Alert onClose={handleClose} severity="error" sx={{ width: '100%' }}>
-          Email failed to send
-        </Alert>
-      </Snackbar>
+    
     </>
   );
 };

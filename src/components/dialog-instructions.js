@@ -1,12 +1,5 @@
 import React from "react";
 import { Button, Typography, Box, DialogContent } from "@mui/material";
-import SwiperCore, { Pagination } from "swiper"; // Fixed this line
-import { Swiper, SwiperSlide } from "swiper/react";
-import "swiper/css";
-import "swiper/css/pagination";
-
-// Make sure to call SwiperCore.use() with the Pagination module
-SwiperCore.use([Pagination]);
 
 const InstructionsDialog = ({ onClose }) => {
   const steps = [
@@ -26,32 +19,21 @@ const InstructionsDialog = ({ onClose }) => {
   };
 
   return (
-    <Box>
-        <Swiper
-          pagination={{ clickable: true }}
-          onSlideChange={(swiper) => setStep(swiper.activeIndex)}
-          observer={true}
-          observeParents={true}
-        >
-
-          {steps.map((stepContent, index) => (
-            <SwiperSlide key={index}>
-              <Box>
-                <Typography variant="h4" gutterBottom>
-                  {stepContent.title}
-                </Typography>
-                <Typography variant="body1">
-                  {stepContent.content}
-                </Typography>
-              </Box>
-            </SwiperSlide>
-          ))}
-        </Swiper>
-      <Box mt={2} display="flex" justifyContent="space-between" alignItems="center">
-        <Button onClick={handleNext} color="primary" variant="contained">
-          {step < steps.length - 1 ? "Next" : "Finish"}
-        </Button>
-      </Box>
+    <Box padding={2} width={600} height={400} display="flex" flexDirection="column" justifyContent="space-between">
+        <Box>
+          <Typography variant="h4" gutterBottom>
+            {steps[step].title}
+          </Typography>
+          <Typography variant="body1">
+            {steps[step].content}
+          </Typography>
+        </Box>
+      
+        <Box mt={2} display="flex" justifyContent="flex-end" alignItems="center">
+          <Button onClick={handleNext} color="primary" variant="contained">
+            {step < steps.length - 1 ? "Next" : "Finish"}
+          </Button>
+        </Box>
     </Box>
   );
 };

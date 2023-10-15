@@ -62,7 +62,7 @@ return (
             Whichever it is, try using the navigation
           </Typography>
           <Button
-            onClick={() => router.back()}
+            onClick={() => router.push('/')}
             startIcon={(
               <SvgIcon fontSize="small">
                 <ArrowLeftIcon />

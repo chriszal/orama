@@ -3,7 +3,8 @@ import { Layout as LocationsLayout } from 'src/layouts/locations/layout';
 import React, { useState, useContext, useEffect } from 'react';
 import { Card, CardHeader, CardContent, SvgIcon, Typography, Box, Button, TextField, IconButton, LinearProgress } from '@mui/material';
 import CameraIcon from '@heroicons/react/24/solid/CameraIcon';
-import LightBulbIcon from '@heroicons/react/24/solid/LightBulbIcon';
+import LightBulbIcon from '@heroicons/react/24/outline/LightBulbIcon';
+import MapPinIcon from '@heroicons/react/24/solid/MapPinIcon';
 import { DialogContext } from 'src/contexts/dialog-context';
 import { AlertContext } from 'src/contexts/alert-context';
 import InstructionsDialog from 'src/components/dialog-instructions';
@@ -13,34 +14,65 @@ import { collection, addDoc, getDoc, serverTimestamp, doc } from 'firebase/fires
 import { SuccessDialogComponent } from 'src/components/success-dialog-component';
 import Image from 'next/image'
 import { useRouter } from 'next/router';
-
+import { getUserLocation } from 'src/utils/get-user-location';
+import { calculateDistance } from 'src/utils/calculate-distance';
 import { getAthensTimeISOString } from 'src/utils/get-athens-time';
+import { getBrowserInfo } from 'src/utils/get-browser-info';
 const db = getFirestore();
 
 
 const Page = () => {
   const [isLoading, setIsLoading] = useState(false);
+  const [locationName, setLocationName] = useState("");
 
   const { openDialog, closeDialog } = useContext(DialogContext);
   const { showAlert } = useContext(AlertContext);
   const [imageSrc, setImageSrc] = useState(null);
   const [name, setName] = useState("");
-  const [note,setNote] = useState("");
+  const [note, setNote] = useState("");
   const [uploadProgress, setUploadProgress] = useState(0);
   const router = useRouter();
   const { locationId } = router.query;
+
+
   useEffect(() => {
     if (locationId) {
       const checkLocationExists = async () => {
-        console.log("Checking existence for locationId:", locationId);
+        try {
+          console.log("Checking existence for locationId:", locationId);
 
-        const locationDocRef = doc(db, 'Locations', locationId);
-        const locationDocSnapshot = await getDoc(locationDocRef);
+          const locationDocRef = doc(db, 'Locations', locationId);
+          const locationDocSnapshot = await getDoc(locationDocRef);
 
-        const locationData = locationDocSnapshot.data();
-        if (!locationData || !locationData.location_name) {
-          console.log("Location data or location_name does not exist, redirecting to 404");
-          router.push('/404');
+          const locationData = locationDocSnapshot.data();
+          if (!locationData || !locationData.location_name || !locationData.is_activated) {
+            console.log("Location data, location_name does not exist, or is not activated, redirecting to 404");
+            router.push('/404');
+          } else {
+            setLocationName(locationData.location_name);
+          }
+
+
+          // const userLocation = await getUserLocation();
+          // console.log(userLocation);
+          // const location = { lat: locationData.location.latitude, lng: locationData.location.longitude }; 
+          // console.log(location);
+          // console.log(getBrowserInfo());
+          // if (!userLocation) return; 
+
+          // const distance = calculateDistance(
+          //   userLocation.lat, userLocation.lon,
+          //   location.lat, location.lon
+          // );
+
+          // if (distance <= 20) {
+          //   console.log("User is within the acceptable range.");
+          // } else {
+          //   console.log("User is out of range.");
+          // }
+
+        } catch (error) {
+          console.error("Error checking location existence:", error);
         }
 
       };
@@ -115,14 +147,6 @@ const Page = () => {
         return;
       }
 
-      const successDialog = (
-        <SuccessDialogComponent
-          onClose={closeDialog}
-          goToMain={() => router.push('/')}
-          viewLogs={() => router.push(`/logs/${locationId}`)}
-        />
-      );
-
       const storage = getStorage();
 
       const fileName = getAthensTimeISOString();
@@ -164,7 +188,7 @@ const Page = () => {
             url: imageUrl,
             metadata: {
               user_name: name || 'Anonymous',
-              user_note:note,
+              user_note: note,
               capture_date_time: serverTimestamp(),
               device_name: null,
               device_browser: null
@@ -177,7 +201,12 @@ const Page = () => {
           setName("");
           setNote("");
           showAlert('Image submitted sucessfully!', 'success');
-          openDialog('Success!', '', successDialog);
+          openDialog('', '', <SuccessDialogComponent
+            onClose={closeDialog}
+            goToGallery={() => router.push(`/locations/${locationId}/gallery`)}
+            goToHome={() => router.push(`/`)}
+
+          />);
           setUploadProgress(0);
           setIsLoading(false);
 
@@ -244,18 +273,32 @@ const Page = () => {
       <Box
         sx={{
           display: 'flex',
-          justifyContent: 'center',
+          flexDirection: 'column',
           alignItems: 'center',
-          mt:5
+          mt: 5
         }}
       >
+
+        {locationName && (
+          <Card sx={{ maxWidth: 345, textAlign: 'center', mb: 3 }}>
+            <CardContent>
+              <SvgIcon sx={{ color: "red" }}>
+                <MapPinIcon />
+              </SvgIcon>
+              <Typography variant="h6">
+
+                You’re on the {locationName}
+              </Typography>
+            </CardContent>
+          </Card>
+        )}
         <Card sx={{ maxWidth: 345, textAlign: 'center', position: 'relative' }}>
           <CardHeader
             title="Capture an Image"
             action={
               <IconButton
-                onClick={() => openDialog('How it Works', '', <InstructionsDialog onClose={closeDialog} />)}
-                sx={{ color: 'primary.main' }}
+                onClick={() => openDialog('', '', <InstructionsDialog onClose={closeDialog} />)}
+                sx={{ color: 'gray' }}
               >
                 <SvgIcon >
                   <LightBulbIcon />
@@ -320,8 +363,8 @@ const Page = () => {
               fullWidth
               label="Write a Note (optional)"
               value={note}
-              multiline  
-              rows={4} 
+              multiline
+              rows={4}
               onChange={(e) => setNote(e.target.value)}
               sx={{ mb: 2 }}
             />
@@ -330,10 +373,6 @@ const Page = () => {
             <Button variant="contained" color="primary" onClick={confirmUpload}>
               Submit
             </Button>
-
-            {/* <Progress value={uploadProgress} color="primary" size="md" aria-label="Downloading..." showValueLabel={true}
-              className="max-w-md" style={{ marginBottom: '16px' }} /> */}
-
 
 
           </CardContent>

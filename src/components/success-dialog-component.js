@@ -1,51 +1,62 @@
 import React from 'react';
 import ConfettiExplosion from 'react-confetti-explosion';
-import { Button, Typography, DialogTitle, DialogContent, IconButton, Link, SvgIcon } from '@mui/material';
+import { Button, Typography, Box, DialogContent, IconButton, Link, SvgIcon, Divider } from '@mui/material';
 import XMarkIcon from '@heroicons/react/24/solid/XMarkIcon';
+import HomeIcon from '@heroicons/react/24/outline/HomeIcon';
+import { FaTwitter } from 'react-icons/fa';
 
-export const SuccessDialogComponent = ({ onClose, goToMain, viewLogs }) => {
+export const SuccessDialogComponent = ({ onClose, goToGallery, goToHome }) => {
+  const handleTwitterButtonClick = () => {
+    const tweetText = "I just contributed to the @oramainitiative! 📸 #CaptureTheChange";
+    const twitterUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(tweetText)}`;
+    window.open(twitterUrl, '_blank');
+  };
+
   return (
     <>
-      <DialogTitle>
-        Thank You!
-        <IconButton 
-          style={{ position: 'absolute', right: 0, top: 0 }} 
-          onClick={onClose}
-        >
-            <SvgIcon> <XMarkIcon /></SvgIcon>
-         
-        </IconButton>
-      </DialogTitle>
-      <DialogContent>
+      {/* <IconButton
+        style={{ position: 'absolute', right: 0, top: 0 }}
+        onClick={onClose}
+      >
+        <SvgIcon> <XMarkIcon /></SvgIcon>
+      </IconButton> */}
+
+      <IconButton
+        style={{ position: 'absolute', left: 0, top: 0 }}
+        onClick={() => {
+          onClose(); 
+          goToHome();  
+        }}
+      >
+        <SvgIcon><HomeIcon /></SvgIcon>
+      </IconButton>
+      <Box textAlign="center" padding={2}>
         <ConfettiExplosion />
-        <Typography variant="body1" gutterBottom>
-          Thank you for participating and contributing to our platform. Keep in mind that if you ever pass this location again, don't be afraid to log another picture because it helps out.
+        <Typography variant="h4" gutterBottom>
+          Thank you
         </Typography>
-        <Button 
-          variant="contained" 
-          color="primary" 
-          onClick={goToMain}
-        >
-          More Info
-        </Button>
-        <Button
-          variant="outlined"
-          color="primary"
-          component={Link}
-          href="https://www.buymeacoffee.com/YourPage" 
-          target="_blank" 
-          rel="noopener noreferrer"
-        >
-          Support Us
-        </Button>
-        <Button 
-          variant="text" 
-          color="primary" 
-          onClick={viewLogs}
-        >
-          View Logs From Others
-        </Button>
-      </DialogContent>
+        <Typography variant="body1" gutterBottom>
+          Your contribution is very valuable. You can capture a photo again next time you pass this location or you can see the weekly pictures from this location by clicking{' '}
+          <Link onClick={() => {
+            onClose(); 
+            goToGallery();  
+          }} style={{ cursor: 'pointer' }}>
+            here
+          </Link>
+          .
+        </Typography>
+        <Divider />
+        <Box display="flex" alignItems="center" justifyContent="center" marginTop={2}>
+          <Button
+            variant="contained"
+            style={{ backgroundColor: '#26a7de' }}
+            onClick={handleTwitterButtonClick}
+            startIcon={<FaTwitter fontSize="large" />}
+          >
+            Share on Twitter
+          </Button>
+        </Box>
+      </Box>
     </>
   );
 };

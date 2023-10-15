@@ -13,13 +13,18 @@ export default function ResponsiveDialog(props) {
     const theme = useTheme();
     const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
 
-
   return (
     <Dialog
-      // fullScreen={fullScreen}
       open={open}
-      onClose={onClose}
+      onClose={(event, reason) => {
+        if (reason === 'backdropClick') {
+          console.log("Backdrop Click - Should not close!");
+          return;  
+        }
+        onClose();
+      }}
       aria-labelledby="responsive-dialog-title"
+      disableBackdropClick
     >
       {title && <DialogTitle id="responsive-dialog-title">{title}</DialogTitle>}
       {message && <DialogContent><DialogContentText>{message}</DialogContentText></DialogContent>}

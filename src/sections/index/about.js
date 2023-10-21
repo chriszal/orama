@@ -6,7 +6,7 @@ const About = () => {
       id="about"
       sx={{
         minHeight: ['auto', '860px'],
-        backgroundColor: 'neutral.800',
+        
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center'
@@ -19,11 +19,11 @@ const About = () => {
           <Typography variant="body2" sx={{ fontWeight: 'bold', color: 'primary.main', mb: 2,mt:5 }}>
               About Us
             </Typography>
-            <Typography variant="h4" sx={{ mb: 5, color: 'white' }}>
+            <Typography variant="h4" sx={{ mb: 5 }}>
             What is Orama?
             </Typography>
-            <Typography variant="body1" sx={{ mb: 5, color: 'white' }}>
-            Orama is a project that aims to create a collection of images showing the changes in different locations around the world. Simply scan the QR code on one of our phone stands, take a photo, and share your perspective with the world. Together, we can create a unique and dynamic view of the world&apos;s most beautiful locations. Whether it&apos;s a beach, a city, a forest, or any other location, we want to capture its beauty and changes through the eyes of the world and with the help of the community.
+            <Typography variant="body1" sx={{ mb: 5}}>
+            Orama is a project developed by two Greek University students that aims to create a collection of images showing the changes in different locations. Simply scan the QR code on one of our phone stands, take a photo, and share your perspective with the world. Together, we can create a unique and dynamic view of the world&apos;s most beautiful locations. Whether it&apos;s a beach, a city, a forest, or any other location, we want to capture its beauty, traffic and changes through the eyes of the world and with the help of the community.
             </Typography>
           </Grid>
           {/* Illustration part */}
@@ -39,7 +39,7 @@ const About = () => {
             >
               <img
                 alt="Server Issue"
-                src="/assets/analysis-illustration.svg"
+                src="/assets/about-us.png"
                 style={{
                   display: 'block',
                   maxWidth: '100%',

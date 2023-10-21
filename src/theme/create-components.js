@@ -52,6 +52,7 @@ export function createComponents(config) {
     MuiCard: {
       styleOverrides: {
         root: {
+          backgroundColor: palette.background.card,
           borderRadius: 20,
           [`&.${paperClasses.elevation1}`]: {
             boxShadow: '0px 5px 22px rgba(0, 0, 0, 0.04), 0px 0px 0px 0.5px rgba(0, 0, 0, 0.03)'
@@ -154,7 +155,7 @@ export function createComponents(config) {
           borderStyle: 'solid',
           borderWidth: 1,
           overflow: 'hidden',
-          borderColor: palette.neutral[200],
+          borderColor: palette.neutral[300],
           transition: muiTheme.transitions.create([
             'border-color',
             'box-shadow'

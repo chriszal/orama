@@ -326,10 +326,13 @@ function normalizeColor(hexCode) {
           
             this.el.style.width = '100%';
             this.el.style.height = '100%';
-            this.el.style.setProperty('--gradient-color-1', '#B0C8D1');
-            this.el.style.setProperty('--gradient-color-2', '#AABDC4');
-            this.el.style.setProperty('--gradient-color-3', '#A2D6C2');
-            this.el.style.setProperty('--gradient-color-4', '#92B2B5');
+            this.el.style.setProperty('--gradient-color-1', '#F8EDE3');
+            this.el.style.setProperty('--gradient-color-2', '#BDD2B6');
+            this.el.style.setProperty('--gradient-color-3', '#A2B29F');
+            this.el.style.setProperty('--gradient-color-4', '#D6E8D5');
+            
+            
+            
           
             this.connect();
             return this;

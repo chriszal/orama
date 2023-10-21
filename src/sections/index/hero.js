@@ -1,5 +1,7 @@
 import { Box, Typography, Button, Container } from '@mui/material';
 import Link from 'next/link';
+import { useEffect, useRef } from 'react';
+
 import ChevronRightIcon from '@heroicons/react/24/solid/ChevronRightIcon';
 import ArrowRightIcon from '@heroicons/react/24/solid/ArrowRightIcon';
 import React, { useState } from 'react';
@@ -8,17 +10,35 @@ import { Link as ScrollLink } from 'react-scroll';
 
 const Hero = () => {
     const [hover, setHover] = useState(false);
-
+    const heroRef = useRef(null);
     const onHover = () => {
         setHover(!hover)
     }
     return (
         <>
-            <GradientCanvas />
+            <GradientCanvas parentRef={heroRef}/>
+            <Box 
+    id="hero" 
+    sx={{ 
+        position: 'relative', 
+        display: 'flex', 
+        alignItems: 'center', 
+        justifyContent: 'center', 
+        height: ['100vh', '860px'],  
+    }}
+>
 
-            <Box id="hero" sx={{ display: 'flex', alignItems: 'center', height: '860px', justifyContent: 'center', flexGrow: 1 }}>
-                <Container>
-                    <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', mt: -36 }}>
+    <Container>
+        <Box 
+            ref={heroRef}  
+            sx={{ 
+                display: 'flex', 
+                flexDirection: 'column', 
+                alignItems: 'center', 
+                justifyContent: 'center',
+                textAlign: 'center'
+            }}
+        >
                         <Typography variant="h2" sx={{ fontWeight: 'bold', position: 'relative' }}>
                             Discover the world through time
                         </Typography>

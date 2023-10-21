@@ -18,6 +18,8 @@ import { getUserLocation } from 'src/utils/get-user-location';
 import { calculateDistance } from 'src/utils/calculate-distance';
 import { getAthensTimeISOString } from 'src/utils/get-athens-time';
 import { getBrowserInfo } from 'src/utils/get-browser-info';
+import emailjs from '@emailjs/browser';
+
 const db = getFirestore();
 
 
@@ -50,6 +52,7 @@ const Page = () => {
             router.push('/404');
           } else {
             setLocationName(locationData.location_name);
+            openDialog('', '', <InstructionsDialog onClose={closeDialog} />)
           }
 
 
@@ -82,7 +85,26 @@ const Page = () => {
   }, [locationId]);
 
 
-
+  const sendEmailNotification = (userName, userEmail, message) => {
+    // These IDs are hypothetical, replace with your actual EmailJS IDs
+    const SERVICE_ID =  process.env.NEXT_PUBLIC_REACT_APP_EMAIL_JS_ID;
+    const TEMPLATE_ID = process.env.NEXT_PUBLIC_REACT_APP_EMAIL_JS_TEMPLATE;
+    const USER_ID = process.env.NEXT_PUBLIC_REACT_APP_EMAIL_JS_PUBLIC_KEY;
+  
+    const templateParams = {
+      user_name: userName,
+      user_email: userEmail,
+      message: message
+    };
+  
+    emailjs.send(SERVICE_ID, TEMPLATE_ID, templateParams, USER_ID)
+      .then((response) => {
+         console.log('SUCCESS!', response.status, response.text);
+      }, (error) => {
+         console.log('FAILED...', error);
+      });
+  }
+  
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     const reader = new FileReader();
@@ -188,7 +210,7 @@ const Page = () => {
             url: imageUrl,
             metadata: {
               user_name: name || 'Anonymous',
-              user_note: note,
+              user_note: note || 'Empty Note',
               capture_date_time: serverTimestamp(),
               device_name: null,
               device_browser: null
@@ -197,6 +219,14 @@ const Page = () => {
           });
 
           console.log("Document written with ID: ", docRef.id);
+
+          // Construct the message with the Firebase link
+          const firebaseLink = `https://console.firebase.google.com/u/zalagats@gmail.com/project/orama-initiative/firestore/data/UserUploads/${docRef.id}`;
+          const messageContent = `You received a new image submission. View it [here](${firebaseLink}).`;
+
+          sendEmailNotification(name || 'Anonymous', locationName, messageContent);
+
+
           setImageSrc(null);
           setName("");
           setNote("");
@@ -279,19 +309,7 @@ const Page = () => {
         }}
       >
 
-        {locationName && (
-          <Card sx={{ maxWidth: 345, textAlign: 'center', mb: 3 }}>
-            <CardContent>
-              <SvgIcon sx={{ color: "red" }}>
-                <MapPinIcon />
-              </SvgIcon>
-              <Typography variant="h6">
-
-                You’re on the {locationName}
-              </Typography>
-            </CardContent>
-          </Card>
-        )}
+      
         <Card sx={{ maxWidth: 345, textAlign: 'center', position: 'relative' }}>
           <CardHeader
             title="Capture an Image"
@@ -349,7 +367,6 @@ const Page = () => {
 
             {/* Name Input */}
             <TextField
-              variant="outlined"
               fullWidth
               label="Name (optional)"
               value={name}
@@ -359,7 +376,6 @@ const Page = () => {
 
             {/* Note Input */}
             <TextField
-              variant="outlined"
               fullWidth
               label="Write a Note (optional)"
               value={note}

@@ -1,5 +1,5 @@
 import Head from 'next/head';
-import { useState, useRef, useEffect,useContext } from 'react';
+import { useState, useRef, useEffect, useContext } from 'react';
 import mapboxgl from 'mapbox-gl';
 import emailjs from '@emailjs/browser';
 import { Box, Typography, Button, Container, TextField, Grid, Card, CardContent, Snackbar, Alert } from '@mui/material';
@@ -38,26 +38,26 @@ const Page = () => {
     const handleMapClick = (event) => {
       const lat = event.lngLat.lat;
       const lng = event.lngLat.lng;
-    
+
       // Check if the clicked point is within Greece( very early access)
       if (isPointInGreece(lng, lat)) {
         setLocation({ latitude: lat, longitude: lng });
-    
+
         if (markerRef.current) {
           markerRef.current.remove();
         }
-    
+
         const newMarker = new mapboxgl.Marker()
           .setLngLat([lng, lat])
           .addTo(mapRef.current);
-    
+
         markerRef.current = newMarker;
       } else {
         // Inform the user that pinning is allowed only within Greece
         showAlert('Only locations in greece allowed!', 'error');
       }
     };
-    
+
 
     map.on('click', handleMapClick);
 
@@ -147,8 +147,8 @@ const Page = () => {
                 </Typography>
                 <Box ref={mapContainerRef} height={400} width="100%"></Box>
                 <Typography variant="body2" color="red">
-                    {(!location.latitude || !location.longitude) && "Please select a location on the map before submitting."}
-                  </Typography>
+                  {(!location.latitude || !location.longitude) && "Please select a location on the map before submitting."}
+                </Typography>
               </CardContent>
             </Card>
           </Grid>
@@ -161,7 +161,6 @@ const Page = () => {
                 <form onSubmit={handleSubmit}>
                   <TextField
                     label="Name"
-                    variant="outlined"
                     fullWidth
                     margin="normal"
                     value={user_name}
@@ -170,7 +169,6 @@ const Page = () => {
                   />
                   <TextField
                     label="Email"
-                    variant="outlined"
                     fullWidth
                     margin="normal"
                     value={user_email}
@@ -179,7 +177,6 @@ const Page = () => {
                   />
                   <TextField
                     label="Description"
-                    variant="outlined"
                     fullWidth
                     margin="normal"
                     helperText="Write down why you think your location would be good."
@@ -189,23 +186,25 @@ const Page = () => {
                     onChange={(e) => setDescription(e.target.value)}
                     required
                   />
-                  <LoadingButton
-                    variant="contained"
-                    color="primary"
-                    type="submit"
-                    loading={loading}
-                    disabled={!location.latitude || !location.longitude || loading}
+                  <Box display="flex" justifyContent="flex-end" mt={2}>
+                    <LoadingButton
+                      variant="contained"
+                      color="primary"
+                      type="submit"
+                      loading={loading}
+                      disabled={!location.latitude || !location.longitude || loading}
                     >
-                    Submit
-                  </LoadingButton>
-                  
+                      Submit
+                    </LoadingButton>
+                  </Box>
+
                 </form>
               </CardContent>
             </Card>
           </Grid>
         </Grid>
       </Container>
-    
+
     </>
   );
 };

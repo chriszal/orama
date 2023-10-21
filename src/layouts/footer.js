@@ -47,7 +47,7 @@ const Footer = () => {
               </MuiLink>
             </Link>
             <Typography variant="body2" sx={{ color: '#fff', marginBottom: '16px' }}>
-              Orama © {new Date().getFullYear()} All rights reserved.
+              Orama Initiative © {new Date().getFullYear()} All rights reserved.
             </Typography>
             <Box
               sx={{
@@ -57,13 +57,13 @@ const Footer = () => {
                 width: '120px'
               }}
             >
-              <MuiLink href="/" target="_blank" aria-label="Facebook" sx={{ color: '#fff', fontSize: '24px' }}>
+              {/* <MuiLink href="/" target="_blank" aria-label="Facebook" sx={{ color: '#fff', fontSize: '24px' }}>
                 <FaFacebook />
-              </MuiLink>
-              <MuiLink href="https://instagram.com/orama_project" target="_blank" aria-label="Instagram" sx={{ color: '#fff', fontSize: '24px' }}>
+              </MuiLink> */}
+              <MuiLink href="https://instagram.com/orama_initiative" target="_blank" aria-label="Instagram" sx={{ color: '#fff', fontSize: '24px' }}>
                 <FaInstagram />
               </MuiLink>
-              <MuiLink href="https://x.com/OramaProject" target="_blank" aria-label="Twitter" sx={{ color: '#fff', fontSize: '24px' }}>
+              <MuiLink href="https://x.com/OramaInitiative" target="_blank" aria-label="Twitter" sx={{ color: '#fff', fontSize: '24px' }}>
                 <FaTwitter />
               </MuiLink>
               <MuiLink href="https://www.tiktok.com/@orama_project" target="_blank" aria-label="TikTok" sx={{ color: '#fff', fontSize: '24px' }}>

@@ -1,11 +1,22 @@
 import React from "react";
-import { Button, Typography, Box, DialogContent } from "@mui/material";
+import { Button, Typography, Box, SvgIcon } from "@mui/material";
+import CameraIcon from '@heroicons/react/24/solid/CameraIcon';
 
 const InstructionsDialog = ({ onClose }) => {
   const steps = [
-    { title: "What this project is about", content: "Your detailed explanation here..." },
-    { title: "How to Use", content: "Step-by-step instructions with illustrations..." },
-    { title: "Data Usage", content: "Explanation about how the collected data will be used..." },
+    { title: "Why You're Here", content: "Every day, every moment, our world changes. From the flow of the tides to the bustling rhythm of city streets, change is the only constant. Now, with the help of your phone and a simple scan, you're about to become a part of a grand project. By capturing a slice of time from this exact spot, you're not just taking a photo – you're adding to a visual timeline, showing how this spot evolves over time." },
+    { 
+      title: "How to Use", 
+      content: (
+        <>
+          Click on the &quot;Take a Photo <SvgIcon color="primary" component={CameraIcon} fontSize="small" style={{ verticalAlign: 'middle' }} />&quot; box. 
+          <br />Place the phone in landscape mode like shown below: <br />
+          <img src="/assets/instruction-placement.png" alt="Phone in landscape mode" style={{width: '70%', display: 'block', margin: '8px auto'}} />
+          Capture the image, add the optional details below and submit the image.
+        </>
+      )
+    },
+    { title: "Why We Collect These Moments", content: "Each image captured is a brushstroke on a vast canvas. Alone, a picture might seem ordinary, but together, they form a timelapse of life and change. We believe in the power of collective perspective. By gathering images from you and countless others, we're chronicling the world's transformation in real-time. Your contribution not only adds to the beauty of our visual tapestry but also helps researchers, historians, and curious minds to study and appreciate the dynamics of our ever-changing environment. By participating, you're leaving a mark, ensuring this moment is never forgotten." },
   ];
 
   const [step, setStep] = React.useState(0);
@@ -18,22 +29,78 @@ const InstructionsDialog = ({ onClose }) => {
     }
   };
 
+  const handleBack = () => {
+    if (step > 0) {
+      setStep(step - 1);
+    }
+  };
+
+  const getBackgroundColor = (index) => {
+    if (index <= step) {
+      return "primary.main";
+    } else {
+      return "grey.400"; 
+    }
+  };
+
   return (
-    <Box padding={2} width={600} height={400} display="flex" flexDirection="column" justifyContent="space-between">
-        <Box>
-          <Typography variant="h4" gutterBottom>
-            {steps[step].title}
-          </Typography>
-          <Typography variant="body1">
-            {steps[step].content}
-          </Typography>
+    <Box padding={2} width={400} height={550} display="flex" flexDirection="column" justifyContent="space-between">
+      <Box>
+        <Typography variant="h5" gutterBottom>
+          {steps[step].title}
+        </Typography>
+
+        <Box mt={2} display="flex" justifyContent="center" alignItems="center">
+          {steps.map((s, index) => (
+            <React.Fragment key={index}>
+              <Box
+                bgcolor={getBackgroundColor(index)}
+                width={32}
+                height={32}
+                borderRadius="50%"
+                display="flex"
+                alignItems="center"
+                justifyContent="center"
+                color="white"
+              >
+                <Typography variant="subtitle1">{index + 1}</Typography>
+              </Box>
+              {index < steps.length - 1 && (
+                <>
+                  <Box
+                    bgcolor={getBackgroundColor(index + 1)}
+                    width={7}
+                    height={7}
+                    borderRadius="50%"
+                    mx={0.5}
+                  ></Box>
+                  <Box
+                    bgcolor={getBackgroundColor(index + 1)}
+                    width={7}
+                    height={7}
+                    borderRadius="50%"
+                    mx={0.5}
+                  ></Box>
+                </>
+              )}
+            </React.Fragment>
+          ))}
         </Box>
-      
-        <Box mt={2} display="flex" justifyContent="flex-end" alignItems="center">
-          <Button onClick={handleNext} color="primary" variant="contained">
-            {step < steps.length - 1 ? "Next" : "Finish"}
-          </Button>
-        </Box>
+        <Typography variant="body2" mt={2}>
+          {steps[step].content}
+        </Typography>
+
+      </Box>
+
+      <Box mt={2} display="flex" justifyContent="space-between" alignItems="center">
+        <Button onClick={handleBack} color="primary" variant="contained" disabled={step === 0}>
+          Back
+        </Button>
+        <Button onClick={handleNext} color="primary" variant="contained">
+          {step < steps.length - 1 ? "Next" : "Finish"}
+        </Button>
+      </Box>
+
     </Box>
   );
 };

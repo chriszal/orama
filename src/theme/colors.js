@@ -20,8 +20,8 @@ export const neutral = {
   500: '#6C737F',
   600: '#4D5761',
   700: '#2F3746',
-  800: '#1C2536',
-  900: '#111927'
+  800: '#435334',
+  900: '#333333'
 };
 
 export const indigo = withAlphas({
@@ -36,8 +36,8 @@ export const indigo = withAlphas({
 export const success = withAlphas({
   lightest: '#F0FDF9',
   light: '#3FC79A',
-  main: '#10B981',
-  dark: '#0B815A',
+  main: '#09d8ab',
+  dark: '#068a7a',
   darkest: '#134E48',
   contrastText: '#FFFFFF'
 });

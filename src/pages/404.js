@@ -38,7 +38,7 @@ return (
           >
             <img
               alt="Under development"
-              src="/assets/errors/error-404.png"
+              src="/assets/errors/404.png"
               style={{
                 display: 'inline-block',
                 maxWidth: '100%',

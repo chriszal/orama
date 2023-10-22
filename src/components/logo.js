@@ -6,7 +6,6 @@ export const Logo = () => {
   const fillColor = theme.palette.primary.main;
 
   return (
-    <div style={{ display: 'flex', alignItems: 'center' }}>
     <svg xmlns="http://www.w3.org/2000/svg" height='45px' weight='45px' viewBox="0 0 1024 1024">
     <defs>
       <linearGradient
@@ -186,7 +185,5 @@ export const Logo = () => {
       <circle cx="493.41" cy="385.06" r="11.73"></circle>
     </g>
   </svg>
-  <Typography variant="h6" style={{ marginLeft: '3px' }}>Orama</Typography>
-    </div>
   );
 };

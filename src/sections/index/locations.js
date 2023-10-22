@@ -114,12 +114,14 @@ const Locations = () => {
             </Grid>
             <Grid item xs={12} md={6}>
               <Box
-                sx={{
+                 sx={{
                   display: 'flex',
                   flexDirection: 'column',
+                  justifyContent: 'center', 
                   alignItems: 'center',
                   textAlign: 'center',
-                }}
+                  height: '100%',
+              }}
               >
                 <Typography variant="h3" gutterBottom sx={{ color: 'white'}}>
                   Explore the Locations

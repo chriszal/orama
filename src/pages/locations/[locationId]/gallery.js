@@ -17,6 +17,7 @@ import MapPinIcon from '@heroicons/react/24/solid/MapPinIcon';
 import NewtonsCradle from 'src/components/newtons-cradle-component';
 
 import { Scrollbar } from 'src/components/scrollbar';
+import { neutral } from 'src/theme/colors';
 
 
 const db = getFirestore();
@@ -159,38 +160,55 @@ const Page = () => {
       <Head>
         <title>Gallery | Orama</title>
       </Head>
-      <Typography variant="h4" align="center" gutterBottom>
-        Gallery
-      </Typography>
-      <Grid container spacing={3} justifyContent="center" px={5} py={3}>
+      <Box
+      sx={{
+        backgroundColor: neutral[50], 
+        padding: '20px',
+        margin: '20px', 
+        borderRadius: '10px',
+        display: 'flex',
+        flexDirection: 'column', 
+        justifyContent: 'center', 
+      }}
+    >
+      <Grid container spacing={3}>
+        <Grid item xs={12}>
+          <Typography variant="h4">
+            Photo Gallery
+          </Typography>
+          <Typography variant="subtitle2">
+            Here you will find all the latest photos from this location
+          </Typography>
+        </Grid>
 
-        {/* <TextField
-                variant="outlined"
-                placeholder="Search picture by username"
-                value={searchUsername}
-                onChange={e => setSearchUsername(e.target.value)}
-                InputProps={{
-                  startAdornment: (
-                    <IconButton>
-                      <SvgIcon><MagnifyingGlassIcon /></SvgIcon>
+        <Grid item xs={12}>
+          <TextField
+            variant="outlined"
+            placeholder="Search picture by username"
+            value={searchUsername}
+            onChange={e => setSearchUsername(e.target.value)}
+            fullWidth
+            InputProps={{
+              startAdornment: (
+                <IconButton>
+                  <SvgIcon><MagnifyingGlassIcon /></SvgIcon>
+                </IconButton>
+              ),
+            }}
+          />
+        </Grid>
 
-                    </IconButton>
-                  ),
-                }}
-              /> */}
-
-
-        {
-          loading ? (
-            <Grid item>
+        {loading ? (
+          <Grid item xs={12} container justifyContent="center" alignItems="center" style={{ height: '100%' }}>
             <NewtonsCradle />
           </Grid>
-
-          ) : uploads.length === 0 || !uploads.some(upload => upload.metadata.user_name.toLowerCase().includes(searchUsername.toLowerCase())) ? (
-            <Typography variant="h6" align="center">
+        ) : uploads.length === 0 || !uploads.some(upload => upload.metadata.user_name.toLowerCase().includes(searchUsername.toLowerCase())) ? (
+          <Grid item xs={12} container justifyContent="center" alignItems="center" style={{ height: '100%' }}>
+            <Typography variant="h6">
               {searchUsername ? `No images available for "${searchUsername}"` : "No images available"}
             </Typography>
-          ) : (
+          </Grid>
+        ) : (
             uploads
               .filter(upload => upload.metadata.user_name.toLowerCase().includes(searchUsername.toLowerCase()))
               .map(upload => (
@@ -237,6 +255,7 @@ const Page = () => {
           )}
 
       </Grid>
+      </Box>
       {/* 
       <IconButton
         style={{

@@ -111,13 +111,15 @@ export const TopNav = (props) => {
             flexGrow: 1
           }}
         >
+
           <Box
             sx={{
-              display: 'inline-flex',
-              ml:2
+              display: 'flex', alignItems: 'center' 
             }}
           >
             <Logo onClick={toggleHome} />
+            <Typography variant="h6" style={{ marginLeft: '3px' }}>Orama</Typography>
+
           </Box>
         </Box>
 

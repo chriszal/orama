@@ -59,6 +59,11 @@ const Fonts = () => (
       rel="stylesheet"
       href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@600;700&display=swap"
     />
+
+<link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;700&display=swap" // Added Noto Sans
+    />
   </>
 );
 

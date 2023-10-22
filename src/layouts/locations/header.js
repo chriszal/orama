@@ -47,7 +47,7 @@ const Header = () => {
         position: 'sticky',
         top: 0,
         zIndex: (theme) => theme.zIndex.appBar,
-        padding: '8px 24px',
+        padding: '8px 10px',
       }}
     >
       <Box

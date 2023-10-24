@@ -30,7 +30,7 @@ const App = (props) => {
     <CacheProvider value={emotionCache}>
       <Head>
         <title>
-          Loading...
+          Loading Orama...
         </title>
         <meta
           name="viewport"

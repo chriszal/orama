@@ -4,6 +4,7 @@ import Bars3Icon from '@heroicons/react/24/solid/Bars3Icon';
 import Link from 'next/link';
 import dynamic from 'next/dynamic';
 import { useState, useEffect, forwardRef } from 'react';
+import { LanguagePopover } from '../language-popover'
 const ScrollLink = dynamic(() => import('react-scroll').then(mod => mod.Link), {
   ssr: false
 });
@@ -27,7 +28,7 @@ const checkWhichInView = () => {
 
   sections.forEach((sectionId, index) => {
     const sectionElement = document.getElementById(sectionId);
-    if (sectionElement) {  // <- This is the check you need
+    if (sectionElement) {  
       const rect = sectionElement.getBoundingClientRect();
       const areaInView = Math.min(rect.bottom, window.innerHeight) - Math.max(rect.top, 0);
 
@@ -50,6 +51,17 @@ export const TopNav = (props) => {
 
   const { value, handleChange, onNavOpen } = props;
   const [scrollNav, setScrollNav] = useState(false);
+
+  const [anchorEl, setAnchorEl] = useState(null);
+
+  const handleLanguageIconClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleLanguagePopoverClose = () => {
+    setAnchorEl(null);
+  };
+
   const CustomScrollLink = forwardRef((props, ref) => (
     <ScrollLink {...props} forwardRef={ref} onClick={(e) => e.preventDefault()} />
   ));
@@ -70,7 +82,7 @@ export const TopNav = (props) => {
       window.removeEventListener('scroll', changeNav);
     };
   }, []);
-  
+
 
 
   const toggleHome = () => {
@@ -114,7 +126,7 @@ export const TopNav = (props) => {
 
           <Box
             sx={{
-              display: 'flex', alignItems: 'center' 
+              display: 'flex', alignItems: 'center'
             }}
           >
             <Logo onClick={toggleHome} />
@@ -122,6 +134,7 @@ export const TopNav = (props) => {
 
           </Box>
         </Box>
+       
 
         {!smDown && (
           <Tabs
@@ -134,6 +147,15 @@ export const TopNav = (props) => {
             <Tab label="Contact" component={CustomScrollLink} to="contact" smooth={true} sx={{ fontWeight: 'bold', fontSize: '1rem' }} />
           </Tabs>
         )}
+         <IconButton onClick={handleLanguageIconClick}>
+          <img src="assets/flags/united-kingdom.png" alt="UK Flag" width={24} height={24} />
+        </IconButton>
+
+        <LanguagePopover
+          anchorEl={anchorEl}
+          onClose={handleLanguagePopoverClose}
+          open={Boolean(anchorEl)}
+        />
 
         {smDown && (
           <IconButton onClick={onNavOpen}>

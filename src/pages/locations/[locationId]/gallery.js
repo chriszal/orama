@@ -225,14 +225,16 @@ const Page = () => {
             <Skeleton variant="rectangular" width="100%" height="100%" />
         )
     }
-    <Image
-        src={upload.url}
-        alt="Uploaded Image"
-        layout="fill"
-        objectFit="cover"
-        onLoad={() => handleImageLoad(upload.url)}
-        style={{ display: imageLoaded[upload.url] ? 'block' : 'none' }}
-    />
+   <Image
+    src={upload.url}
+    alt="Uploaded Image"
+    layout="fill"
+    objectFit="cover"
+    priority
+    onLoad={() => handleImageLoad(upload.url)}
+    style={{ display: imageLoaded[upload.url] ? 'block' : 'none' }}
+/>
+
 </Box>
 
 

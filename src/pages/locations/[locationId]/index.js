@@ -38,6 +38,8 @@ const Page = () => {
 
 
   useEffect(() => {
+    openDialog('', '', <InstructionsDialog onClose={closeDialog} />)
+
     if (locationId) {
       const checkLocationExists = async () => {
         try {
@@ -49,10 +51,10 @@ const Page = () => {
           const locationData = locationDocSnapshot.data();
           if (!locationData || !locationData.location_name || !locationData.is_activated) {
             console.log("Location data, location_name does not exist, or is not activated, redirecting to 404");
+            closeDialog();
             router.push('/404');
           } else {
             setLocationName(locationData.location_name);
-            openDialog('', '', <InstructionsDialog onClose={closeDialog} />)
           }
 
 

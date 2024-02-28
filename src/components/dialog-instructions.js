@@ -9,7 +9,7 @@ const InstructionsDialog = ({ onClose }) => {
       title: "📸 How to Capture",
       content: (
         <>
-          1. Tap the <strong>"Take a Photo"</strong> button. 
+          1. Tap the <strong>&quot;Take a Photo&quot;</strong> button. 
           <br />
           2. Turn your phone to <strong>landscape mode</strong>. Refer to the image below:
           <br />

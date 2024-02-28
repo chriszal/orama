@@ -32,6 +32,7 @@ const Page = () => {
   const [uploads, setUploads] = useState([]);
   const [isDrawerOpen, setDrawerOpen] = useState(false);
 
+  const [imageLoaded, setImageLoaded] = useState({});
 
   const router = useRouter();
   const { locationId } = router.query;
@@ -152,6 +153,9 @@ const Page = () => {
 
 
 
+  const handleImageLoad = (url) => {
+    setImageLoaded(prevState => ({ ...prevState, [url]: true }));
+};
 
 
 
@@ -215,16 +219,23 @@ const Page = () => {
                 <Grid item xs={12} sm={6} md={4} lg={3} key={upload.url}>
                   <Card sx={{ width: { xs: '100%', sm: '90%', md: '90%', lg: '100%' }, height: 'auto', overflow: 'hidden', textAlign: 'center', mb: 3 }} onClick={() => handleCardClick(upload)}>
                     <CardActionArea>
-                      <Box sx={{ height: 220, position: 'relative', borderRadius: '16px', overflow: 'hidden' }}>
+                    <Box sx={{ height: 220, position: 'relative', borderRadius: '16px', overflow: 'hidden' }}>
+    {
+        !imageLoaded[upload.url] && (
+            <Skeleton variant="rectangular" width="100%" height="100%" />
+        )
+    }
+   <Image
+    src={upload.url}
+    alt="Uploaded Image"
+    layout="fill"
+    objectFit="cover"
+    priority
+    onLoad={() => handleImageLoad(upload.url)}
+    style={{ display: imageLoaded[upload.url] ? 'block' : 'none' }}
+/>
 
-                        <Image
-                          src={upload.url}
-                          alt="Uploaded Image"
-                          layout="fill"
-                          objectFit="cover"
-                        />
-
-                      </Box>
+</Box>
 
 
 

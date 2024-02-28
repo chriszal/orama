@@ -5,14 +5,16 @@ import CameraIcon from '@heroicons/react/24/solid/CameraIcon';
 const InstructionsDialog = ({ onClose }) => {
   const steps = [
     { title: "Why You're Here", content: "Every day, every moment, our world changes. From the flow of the tides to the bustling rhythm of city streets, change is the only constant. Now, with the help of your phone and a simple scan, you're about to become a part of a grand project. By capturing a slice of time from this exact spot, you're not just taking a photo – you're adding to a visual timeline, showing how this spot evolves over time." },
-    { 
-      title: "How to Use", 
+    {
+      title: "📸 How to Capture",
       content: (
         <>
-          Click on the &quot;Take a Photo <SvgIcon color="primary" component={CameraIcon} fontSize="small" style={{ verticalAlign: 'middle' }} />&quot; box. 
-          <br />Place the phone in landscape mode like shown below: <br />
-          <img src="/assets/instruction-placement.png" alt="Phone in landscape mode" style={{width: '70%', display: 'block', margin: '8px auto'}} />
-          Capture the image, add the optional details below and submit the image.
+          1. Tap the <strong>"Take a Photo"</strong> button. 
+          <br />
+          2. Turn your phone to <strong>landscape mode</strong>. Refer to the image below:
+          <br />
+          <img src="/assets/instruction-placement.png" alt="Phone in landscape mode" style={{ width: '70%', display: 'block', margin: '8px auto' }} />
+          3. Snap, add details, then submit.
         </>
       )
     },
@@ -55,8 +57,8 @@ const InstructionsDialog = ({ onClose }) => {
             <React.Fragment key={index}>
               <Box
                 bgcolor={getBackgroundColor(index)}
-                width={32}
-                height={32}
+                width={28}
+                height={28}
                 borderRadius="50%"
                 display="flex"
                 alignItems="center"
@@ -69,15 +71,15 @@ const InstructionsDialog = ({ onClose }) => {
                 <>
                   <Box
                     bgcolor={getBackgroundColor(index + 1)}
-                    width={7}
-                    height={7}
+                    width={6}
+                    height={6}
                     borderRadius="50%"
                     mx={0.5}
                   ></Box>
                   <Box
                     bgcolor={getBackgroundColor(index + 1)}
-                    width={7}
-                    height={7}
+                    width={6}
+                    height={6}
                     borderRadius="50%"
                     mx={0.5}
                   ></Box>

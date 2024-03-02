@@ -87,16 +87,16 @@ const Page = () => {
   }, [locationId]);
 
 
-  const sendEmailNotification = (userName, userEmail, message) => {
-    // These IDs are hypothetical, replace with your actual EmailJS IDs
-    const SERVICE_ID =  process.env.NEXT_PUBLIC_REACT_APP_EMAIL_JS_ID;
+  const sendEmailNotification = (userName, userEmail, imageUrl, firebaseLink) => {
+    const SERVICE_ID = process.env.NEXT_PUBLIC_REACT_APP_EMAIL_JS_ID;
     const TEMPLATE_ID = process.env.NEXT_PUBLIC_REACT_APP_EMAIL_JS_TEMPLATE;
     const USER_ID = process.env.NEXT_PUBLIC_REACT_APP_EMAIL_JS_PUBLIC_KEY;
   
     const templateParams = {
       user_name: userName,
       user_email: userEmail,
-      message: message
+      imageUrl: imageUrl, // Dynamic image URL
+      firebaseLink: firebaseLink // Dynamic Firestore link
     };
   
     emailjs.send(SERVICE_ID, TEMPLATE_ID, templateParams, USER_ID)
@@ -106,6 +106,7 @@ const Page = () => {
          console.log('FAILED...', error);
       });
   }
+  
   
   const handleImageChange = (e) => {
     const file = e.target.files[0];
@@ -221,12 +222,11 @@ const Page = () => {
           });
 
           console.log("Document written with ID: ", docRef.id);
-
           // Construct the message with the Firebase link
           const firebaseLink = `https://console.firebase.google.com/u/zalagats@gmail.com/project/orama-initiative/firestore/data/UserUploads/${docRef.id}`;
-          const messageContent = `You received a new image submission. View it [here](${firebaseLink}).`;
+       
 
-          sendEmailNotification(name || 'Anonymous', locationName, messageContent);
+          sendEmailNotification(name || 'Anonymous', locationName,  imageUrl, firebaseLink);
 
 
           setImageSrc(null);

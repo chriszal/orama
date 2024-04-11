@@ -18,7 +18,7 @@ const InstructionsDialog = ({ onClose }) => {
         </>
       )
     },
-    { title: "Your impact", content: "Each image captured is a brushstroke on a vast canvas. Alone, a picture might seem ordinary, but together, they form a timelapse of life and change. We believe in the power of collective perspective. By gathering images from you and countless others, we're chronicling the world's transformation in real-time. Your contribution not only adds to the beauty of our visual tapestry but also helps researchers, historians, and curious minds to study and appreciate the dynamics of our ever-changing environment. By participating, you're leaving a mark, ensuring this moment is never forgotten." },
+    { title: "Why We Collect These Moments", content: "We believe in the power of collective perspective. By gathering images from you and countless others, we're chronicling the world's transformation in real-time. Your contribution not only adds to the beauty of our visual tapestry but also helps researchers, historians, and curious minds to study and appreciate the dynamics of our ever-changing environment. By participating, you're leaving a mark, ensuring this moment is never forgotten." },
   ];
 
   const [step, setStep] = React.useState(0);

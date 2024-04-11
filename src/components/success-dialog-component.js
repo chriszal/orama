@@ -3,7 +3,7 @@ import ConfettiExplosion from 'react-confetti-explosion';
 import { Button, Typography, Box, DialogContent, IconButton, Link, SvgIcon, Divider } from '@mui/material';
 import XMarkIcon from '@heroicons/react/24/solid/XMarkIcon';
 import HomeIcon from '@heroicons/react/24/outline/HomeIcon';
-import { FaTwitter } from 'react-icons/fa';
+import { FaTwitter, FaInstagram } from 'react-icons/fa'; // Import FaInstagram
 
 export const SuccessDialogComponent = ({ onClose, goToGallery, goToHome }) => {
   const handleTwitterButtonClick = () => {
@@ -12,15 +12,14 @@ export const SuccessDialogComponent = ({ onClose, goToGallery, goToHome }) => {
     window.open(twitterUrl, '_blank');
   };
 
+  const handleInstagramRedirect = () => {
+    // Replace with your actual Instagram page URL
+    const instagramUrl = `https://instagram.com/orama_initiative`;
+    window.open(instagramUrl, '_blank');
+  };
+
   return (
     <>
-      {/* <IconButton
-        style={{ position: 'absolute', right: 0, top: 0 }}
-        onClick={onClose}
-      >
-        <SvgIcon> <XMarkIcon /></SvgIcon>
-      </IconButton> */}
-
       <IconButton
         style={{ position: 'absolute', left: 0, top: 0 }}
         onClick={() => {
@@ -42,18 +41,27 @@ export const SuccessDialogComponent = ({ onClose, goToGallery, goToHome }) => {
             goToGallery();  
           }} style={{ cursor: 'pointer' }}>
             here
-          </Link>
-          .
+          </Link>.
         </Typography>
         <Divider />
         <Box display="flex" alignItems="center" justifyContent="center" marginTop={2}>
-          <Button
+          {/* <Button
             variant="contained"
             style={{ backgroundColor: '#26a7de' }}
             onClick={handleTwitterButtonClick}
             startIcon={<FaTwitter fontSize="large" />}
           >
             Share on Twitter
+          </Button> */}
+          {/* Instagram Button */}
+          <Button
+            variant="contained"
+            color="secondary" // Adjust color as needed
+            onClick={handleInstagramRedirect}
+            startIcon={<FaInstagram fontSize="large" />}
+            style={{ marginLeft: 10 }} // Add spacing between buttons
+          >
+            Send us a selfie
           </Button>
         </Box>
       </Box>

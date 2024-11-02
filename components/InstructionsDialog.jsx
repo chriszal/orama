@@ -2,10 +2,12 @@ import React, { useState, useEffect } from "react";
 import { getFirestore, doc, getDocs, collection, query, where } from "firebase/firestore";
 import Lottie from "react-lottie";
 import * as animationData from "public/animations/congratulations.json"; // Update the path if necessary
+import { FaSpinner } from "react-icons/fa";
 
 const InstructionsDialog = ({ onClose, locationId }) => {
-  const [uploadCount, setUploadCount] = useState(0);
+  const [uploadCount, setUploadCount] = useState(null);
   const [step, setStep] = useState(0);
+  const [isLoading, setIsLoading] = useState(true);
 
   const steps = [
     {
@@ -15,8 +17,12 @@ const InstructionsDialog = ({ onClose, locationId }) => {
           <div className="flex justify-center mb-4">
             <Lottie options={{ loop: true, autoplay: true, animationData }} height={200} width={200} />
           </div>
-          <p className="text-lg font-bold text-center text-gray-800 dark:text-gray-100">
-            You are the <span className="text-blue-600 dark:text-blue-400">{uploadCount + 1}th</span> person uploading at this location!
+          <p className="text-xl font-bold text-center text-gray-800 dark:text-gray-100">
+            You are the{" "}
+            <span className="text-3xl text-blue-600 dark:text-blue-400">
+              {isLoading ?  <FaSpinner className="animate-spin ml-2 text-lg inline-block" />: `${uploadCount + 1}th`}
+            </span>{" "}
+            person uploading at this location!
           </p>
         </>
       ),
@@ -57,6 +63,8 @@ const InstructionsDialog = ({ onClose, locationId }) => {
         setUploadCount(querySnapshot.size);
       } catch (error) {
         console.error("Error fetching upload count:", error);
+      } finally {
+        setIsLoading(false);
       }
     };
 
@@ -107,9 +115,13 @@ const InstructionsDialog = ({ onClose, locationId }) => {
             step < steps.length - 1
               ? "bg-blue-500 dark:bg-blue-600 hover:bg-blue-600 dark:hover:bg-blue-500 text-white"
               : "bg-green-500 dark:bg-green-600 hover:bg-green-600 dark:hover:bg-green-500 text-white"
-          } transition-colors`}
+          } transition-colors flex items-center justify-center space-x-2`}
+          disabled={isLoading}
         >
           {step < steps.length - 1 ? "Next" : "Get Started"}
+          {step === 0 && isLoading && (
+            <FaSpinner className="animate-spin ml-2 text-lg" />
+          )}
         </button>
       </div>
     </div>

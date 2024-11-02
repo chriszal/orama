@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { getFirestore, doc, getDocs, collection, query, where } from "firebase/firestore";
 import Lottie from "react-lottie";
 import * as animationData from "public/animations/congratulations.json"; // Update the path if necessary
-import { FaSpinner } from "react-icons/fa";
+import { FaSpinner, FaArrowLeft } from "react-icons/fa";
 
 const InstructionsDialog = ({ onClose, locationId }) => {
   const [uploadCount, setUploadCount] = useState(null);
@@ -15,12 +15,12 @@ const InstructionsDialog = ({ onClose, locationId }) => {
       content: (
         <>
           <div className="flex justify-center mb-4">
-            <Lottie options={{ loop: true, autoplay: true, animationData }} height={200} width={200} />
+            <Lottie options={{ loop: true, autoplay: true, animationData }} height={120} width={120} />
           </div>
           <p className="text-xl font-bold text-center text-gray-800 dark:text-gray-100">
             You are the{" "}
             <span className="text-3xl text-blue-600 dark:text-blue-400">
-              {isLoading ?  <FaSpinner className="animate-spin ml-2 text-lg inline-block" />: `${uploadCount + 1}th`}
+              {isLoading ? <FaSpinner className="animate-spin ml-2 text-lg inline-block" /> : `${uploadCount + 1}th`}
             </span>{" "}
             person uploading at this location!
           </p>
@@ -102,27 +102,30 @@ const InstructionsDialog = ({ onClose, locationId }) => {
 
       {/* Navigation */}
       <div className="flex justify-between items-center mt-4">
-        <button
-          onClick={handleBack}
-          className="px-4 py-2 bg-gray-300 dark:bg-gray-600 text-gray-800 dark:text-gray-100 rounded hover:bg-gray-400 dark:hover:bg-gray-500 transition-colors"
-          disabled={step === 0}
-        >
-          Back
-        </button>
-        <button
-          onClick={handleNext}
-          className={`px-4 py-2 rounded ${
-            step < steps.length - 1
-              ? "bg-blue-500 dark:bg-blue-600 hover:bg-blue-600 dark:hover:bg-blue-500 text-white"
-              : "bg-green-500 dark:bg-green-600 hover:bg-green-600 dark:hover:bg-green-500 text-white"
-          } transition-colors flex items-center justify-center space-x-2`}
-          disabled={isLoading}
-        >
-          {step < steps.length - 1 ? "Next" : "Get Started"}
-          {step === 0 && isLoading && (
-            <FaSpinner className="animate-spin ml-2 text-lg" />
-          )}
-        </button>
+        {step > 0 && (
+          <button
+            onClick={handleBack}
+            className="px-4 py-2 bg-transparent text-blue-500 dark:text-blue-400 rounded hover:bg-blue-100 dark:hover:bg-blue-800 transition-colors"
+          >
+            <FaArrowLeft className="text-2xl" />
+          </button>
+        )}
+        <div className={`flex ${step === 0 ? 'justify-center' : 'justify-end'} w-full`}>
+          <button
+            onClick={handleNext}
+            className={`px-4 py-2 rounded ${
+              step < steps.length - 1
+                ? "bg-blue-500 dark:bg-blue-600 hover:bg-blue-600 dark:hover:bg-blue-500 text-white"
+                : "bg-green-500 dark:bg-green-600 hover:bg-green-600 dark:hover:bg-green-500 text-white"
+            } transition-colors flex items-center justify-center space-x-2`}
+            disabled={isLoading}
+          >
+            {step < steps.length - 1 ? "Next" : "Get Started"}
+            {step === 0 && isLoading && (
+              <FaSpinner className="animate-spin ml-2 text-lg" />
+            )}
+          </button>
+        </div>
       </div>
     </div>
   );

@@ -9,6 +9,16 @@ const InstructionsDialog = ({ onClose, locationId }) => {
   const [step, setStep] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
 
+  const getOrdinalSuffix = (num) => {
+    const lastDigit = num % 10;
+    const lastTwoDigits = num % 100;
+    if (lastTwoDigits >= 11 && lastTwoDigits <= 13) return "th";
+    if (lastDigit === 1) return "st";
+    if (lastDigit === 2) return "nd";
+    if (lastDigit === 3) return "rd";
+    return "th";
+  };
+
   const steps = [
     {
       title: "🎉 Congratulations! 🎉",
@@ -20,7 +30,11 @@ const InstructionsDialog = ({ onClose, locationId }) => {
           <p className="text-xl font-bold text-center text-gray-800 dark:text-gray-100">
             You are the{" "}
             <span className="text-3xl text-blue-600 dark:text-blue-400">
-              {isLoading ? <FaSpinner className="animate-spin ml-2 text-lg inline-block" /> : `${uploadCount + 1}th`}
+              {isLoading ? (
+                <FaSpinner className="animate-spin ml-2 text-lg inline-block" />
+              ) : (
+                `${uploadCount + 1}${getOrdinalSuffix(uploadCount + 1)}`
+              )}
             </span>{" "}
             person uploading at this location!
           </p>

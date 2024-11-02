@@ -72,13 +72,27 @@ export default function About() {
               </svg>
             </div> */}
           </div>
-          <CategoryCard />
+          {/* <CategoryCard /> */}
           <div className=" text-[0.92rem] text-base mx-12 font-light dark:text-white text-gray-900">
             <p className="mt-6 mb-12 font-normal">
-            Orama is a project developed by two Greek University students that aims to create a collection of images showing the changes in different locations. Simply scan the QR code on one of our phone stands, take a photo, and share your perspective with the world. Together, we can create a unique and dynamic view of the world&apos;s most beautiful locations. Whether it&apos;s a beach, a city, a forest, or any other location, we want to capture its beauty, traffic and changes through the eyes of the world and with the help of the community.            </p>
+              Orama is a project developed by two Greek University students that aims to create a collection of images showing the changes in different locations.
+            </p>
+
+            <p className="mt-6 mb-12 font-normal">How does it work?</p>
+
+            <p className="mt-6 mb-12 font-normal">
+              Simply scan the QR code on one of our phone stands, take a photo, and share your perspective with the world...
+            </p>
+
+            <p className="mt-6 mb-12 font-normal">
+              Together, we can combine our unique perspectives of the world&#39;s most beautiful locations and create a dynamic overview. Whether it&#39;s a beach, a city, a forest, or any other location, we want to capture its beauty, traffic, and changes through the eyes of the community.
+            </p>
+
+            <p className="mt-6 mb-12 font-normal">
+              Uniquely similar or Similarly unique? Your call!
+            </p>
 
 
-           
           </div>
 
         </div>

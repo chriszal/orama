@@ -91,7 +91,7 @@ const HeroSection = () => {
             <div className="flex flex-col space-y-6 lg:w-1/2">
                 <h2 className="text-xl font-semibold text-blue-500">#orama✖initiative</h2>
                 <h1 className="text-4xl lg:text-6xl font-bold">Discover the world through time</h1>
-                <p className="text-lg lg:text-xl">Explore the beauty and history of our world, one location at a time.</p>
+                <p className="text-lg lg:text-xl">  Join the movement. Find our spots and capture the change. Explore one location at a time </p>
                 <div className="flex space-x-4">
                     <Link href="/locations">
                         <button className="bg-blue-500 text-white px-4 py-2 rounded-md">Locations</button>

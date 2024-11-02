@@ -3,7 +3,7 @@ import { useState, useContext, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { getFirestore, getStorage } from '@/config/firebase-config';
 import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
-import { collection, addDoc, getDoc, serverTimestamp, doc } from 'firebase/firestore';
+import { collection, addDoc, getDoc, serverTimestamp, doc , query, where, getDocs, orderBy } from 'firebase/firestore';
 import Image from 'next/image';
 import emailjs from '@emailjs/browser';
 import { getAthensTimeISOString } from '@/utils/get-athens-time';
@@ -11,6 +11,8 @@ import InstructionsDialog from '@/components/InstructionsDialog';
 import SuccessDialogComponent from '@/components/SuccessDialogComponent';
 import CustomAlert from '@/components/CustomAlert';
 import Dialog from '@/components/Dialog';
+import CustomDialog from '@/components/CustomDialog';
+
 import { FaCamera, FaInfoCircle } from 'react-icons/fa';
 
 const db = getFirestore();
@@ -24,14 +26,18 @@ const LocationUpload = () => {
   const [uploadProgress, setUploadProgress] = useState(0);
   const [alert, setAlert] = useState(null);
   const [dialog, setDialog] = useState(null);
+  const [customDialog, setCustomDialog] = useState(null);
   const router = useRouter();
   const { locationId } = router.query;
   const showDialog = (title, content, actions) => {
     setDialog({ title, content, actions });
   };
+  const showCustomDialog = (title, content, actions) => {
+    setCustomDialog({ title, content, actions });
+  };
 
   useEffect(() => {
-    showDialog('', '', <InstructionsDialog onClose={closeDialog} />)
+    showCustomDialog('', '', <InstructionsDialog onClose={closeCustomDialog} locationId={locationId}/>)
     const checkLocationExists = async () => {
       try {
         const locationDocRef = doc(db, 'Locations', locationId);
@@ -61,6 +67,9 @@ const LocationUpload = () => {
     setDialog(null);
   };
 
+  const closeCustomDialog = () => {
+    setCustomDialog(null);
+  };
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     const reader = new FileReader();
@@ -145,7 +154,7 @@ const LocationUpload = () => {
           setName("");
           setNote("");
           showAlert('Image submitted successfully!', 'success');
-          showDialog('', '', <SuccessDialogComponent onClose={closeDialog} goToGallery={() => router.push(`/locations/${locationId}/gallery`)} goToHome={() => router.push(`/`)} />);
+          showCustomDialog('', '', <SuccessDialogComponent onClose={closeCustomDialog} goToGallery={() => router.push(`/locations/${locationId}/gallery`)} goToHome={() => router.push(`/`)} />);
           setUploadProgress(0);
           setIsLoading(false);
         }
@@ -230,7 +239,7 @@ const LocationUpload = () => {
           <div className="order-2 lg:order-1 w-full flex flex-col space-y-6 bg-clip-text">
             <div className="flex justify-between items-center mb-4">
               <h3 className="text-lg font-semibold">Capture an Image</h3>
-              <button onClick={() => showDialog('', '', <InstructionsDialog onClose={closeDialog} />)}>
+              <button onClick={() => showCustomDialog('', '', <InstructionsDialog onClose={closeCustomDialog} locationId={locationId}/>)}>
                 <FaInfoCircle className="w-6 h-6 text-gray-500" />
               </button>
             </div>
@@ -281,6 +290,7 @@ const LocationUpload = () => {
 
       {alert && <CustomAlert message={alert.message} type={alert.type} onClose={() => setAlert(null)} />}
       {dialog && <Dialog title={dialog.title} content={dialog.content} actions={dialog.actions} />}
+      {customDialog && <CustomDialog title={customDialog.title} content={customDialog.content} actions={customDialog.actions} />}
     </div>
   );
 };

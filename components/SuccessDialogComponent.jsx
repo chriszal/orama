@@ -34,7 +34,7 @@ const SuccessDialogComponent = ({ onClose, goToGallery, goToHome }) => {
       </div>
 
       <p className="text-gray-700 dark:text-gray-300 text-lg mb-6">
-        Your contribution is valuable! Feel free to capture another moment next time you pass by. You can also view other photos on this location by clicking{' '}
+        Your contribution is valuable! Feel free to capture another moment next time you pass by. You can also view all the other photos on this location by clicking{' '}
         <span
           onClick={() => {
             onClose();
@@ -52,7 +52,7 @@ const SuccessDialogComponent = ({ onClose, goToGallery, goToHome }) => {
           className="flex items-center justify-center px-5 py-2 bg-pink-500 text-white rounded-full shadow-lg transform transition-all hover:bg-pink-600 hover:scale-105"
         >
           <FaInstagram className="mr-2" size="1.5em" />
-          Send Feedback
+          Send us feedback
         </button>
       </div>
     </div>

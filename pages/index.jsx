@@ -6,6 +6,7 @@ import Image from "next/image";
 import Contact from "@/components/Contact";
 import Experience from "@/components/Experience";
 import HeroSection from "@/components/HeroSection";
+import Leaderboard from "@/components/Leaderboard"; 
 
 
 export default function Home() {
@@ -20,7 +21,10 @@ export default function Home() {
       </Head>
       <div className="lg:min-h-screen px-4 sm:px-8 md:px-12 lg:px-16 xl:px-20 mx-auto max-w-screen-xl">
       <HeroSection />
-       
+      <div className="mt-20 mx-auto">
+          <Leaderboard />
+        </div>
+
         <div className="mt-28 mx-auto">
           <Experience />
         </div>

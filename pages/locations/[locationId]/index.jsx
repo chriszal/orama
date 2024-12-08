@@ -261,14 +261,14 @@ const LocationUpload = () => {
 
             <input
               type="text"
-              placeholder="Name (optional)"
+              placeholder="Name/ Social(optional)"
               value={name}
               onChange={(e) => setName(e.target.value)}
               className="w-full px-4 py-2 border rounded-lg mb-4 focus:outline-none focus:ring focus:border-blue-300"
             />
 
             <textarea
-              placeholder="Write a Note (optional)"
+              placeholder="Write a note (optional)"
               value={note}
               onChange={(e) => setNote(e.target.value)}
               className="w-full px-4 py-2 border rounded-lg mb-4 focus:outline-none focus:ring focus:border-blue-300"

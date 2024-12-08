@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { getFirestore, doc, getDocs, collection, query, where } from "firebase/firestore";
+import { getFirestore, doc, collection, query, where, orderBy, limit, getDocs } from "firebase/firestore";
 import Lottie from "react-lottie";
 import * as animationData from "public/animations/congratulations.json"; // Update the path if necessary
 import { FaSpinner, FaArrowLeft } from "react-icons/fa";
@@ -8,6 +8,7 @@ const InstructionsDialog = ({ onClose, locationId }) => {
   const [uploadCount, setUploadCount] = useState(null);
   const [step, setStep] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
+  const [instructionImage, setInstructionImage] = useState("/instruction-placement.png"); // Default image
 
   const getOrdinalSuffix = (num) => {
     const lastDigit = num % 10;
@@ -48,9 +49,9 @@ const InstructionsDialog = ({ onClose, locationId }) => {
           <p>Follow these simple steps:</p>
           <ol className="list-decimal list-inside mt-2 text-left mx-auto w-3/4">
             <li>Tap the <strong>“Take a Photo”</strong> button.</li>
-            <li>Turn your phone to <strong>landscape mode</strong> as shown below:</li>
+            <li>Turn your phone to <strong>landscape mode</strong> and take a picture of the view as shown below:</li>
           </ol>
-          <img src="/instruction-placement.png" alt="Phone in landscape mode" className="w-2/3 mx-auto my-4 rounded-lg shadow-md" />
+          <img src={instructionImage} alt="Phone in landscape mode" className="w-2/3 mx-auto my-4 rounded-lg shadow-md" />
           <p>Then, snap the photo, add details, and submit.</p>
         </div>
       ),
@@ -66,23 +67,37 @@ const InstructionsDialog = ({ onClose, locationId }) => {
   ];
 
   useEffect(() => {
-    const fetchUploadCount = async () => {
+    const fetchUploadCountAndImage = async () => {
       if (!locationId) return;
       try {
         const db = getFirestore();
+
+        // Fetch upload count
         const locationRef = doc(db, "Locations", locationId);
         const q = query(collection(db, "UserUploads"), where("location_qr_code", "==", locationRef));
-
         const querySnapshot = await getDocs(q);
         setUploadCount(querySnapshot.size);
+
+        // Fetch the latest approved image
+        const approvedQuery = query(
+          collection(db, "UserUploads"),
+          where("location_qr_code", "==", locationRef),
+          where("is_approved", "==", true),
+          orderBy("metadata.capture_date_time", "desc"),
+          limit(1)
+        );
+        const approvedSnapshot = await getDocs(approvedQuery);
+
+        const latestImage = approvedSnapshot.docs[0]?.data()?.url || "/instruction-placement.png";
+        setInstructionImage(latestImage);
       } catch (error) {
-        console.error("Error fetching upload count:", error);
+        console.error("Error fetching data:", error);
       } finally {
         setIsLoading(false);
       }
     };
 
-    fetchUploadCount();
+    fetchUploadCountAndImage();
   }, [locationId]);
 
   const handleNext = () => {
